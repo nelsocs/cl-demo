@@ -1,0 +1,79 @@
+{
+  "variables": {
+      "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+      "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+      "region": "us-east-2",
+      "iso_file": "http://isoredirect.centos.org/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1810.iso",
+      "iso_checksum": "38d5d51d9d100fd73df031ffd6bd8b1297ce24660dc8c13a3b8b4534a4bd291",
+      "type": "sha256", 
+      "non_gui": "true" 
+      },
+      "builders": [
+        { 
+          "type": "virtualbox-iso", 
+          "iso_url": "",
+          "iso_checksum": "", 
+          "iso_checksum_type": "", 
+          "headless": "", 
+          "output_directory": "builds", 
+          "vm_name": "Minimal-CentOS7", 
+          "guest_os_type": "RedHat_64", 
+          "disk_size": "81920", 
+          "boot_wait": "5s", 
+          "http_directory": "src", 
+          "boot_command": [ "<tab> text ks=http://:/ks.cfg<enter><wait>" ], 
+          "ssh_username": "packer", 
+          "ssh_password": "packer", 
+          "ssh_wait_timeout": "1000s", 
+          "shutdown_command": "sudo shutdown -h 0", 
+          "format": "ova" 
+        }
+      ] 
+  } 
+
+
+
+  "builders": [
+      {
+          "access_key": "{{user `aws_access_key`}}",
+          "ami_name": "packer-linux-aws-centos7-{{timestamp}}",
+          "instance_type": "t2.micro",
+          "region": "us-east-2",
+          "secret_key": "{{user `aws_secret_key`}}",
+          "communicator": "ssh",
+          "ssh_username": "centos",
+          "type": "amazon-ebs",
+          "source_ami_filter": {
+            "filters": {
+              "virtualization-type": "hvm",
+              "name": "amzn-ami-hvm-2018*-x86_64-gp2",
+              "root-device-type": "ebs"
+              },
+              "owners": ############,
+              "most_recent": true
+            },
+            "type": "amazon-ebs",
+              "ami_block_device_mappings": [
+              {
+              "device_name": "/dev/xvda",
+              "volume_size": 100,
+              "delete_on_termination": true,
+              "volume_type": "gp2"
+              },
+              {
+              "device_name": "/dev/xvdb",
+              "volume_size": 100,
+              "delete_on_termination": true,
+              "volume_type": "gp2"
+              }
+            ]
+          }
+      ],
+  "provisioners": [
+      {
+        "type": "shell",
+        "script": "provision.sh"
+      }
+      ]
+}
+  
