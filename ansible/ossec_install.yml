@@ -2,10 +2,14 @@
   hosts: 127.0.0.1
   connection: local
   tasks:
+    - name: install epel-repo
+      yum:
+       name: epel-release
+       state: present
     - name: install list of packages
       yum:
        name: "{{ packages }}"
-       state: present
+       state: latest
       vars:
        packages:
         - gcc
