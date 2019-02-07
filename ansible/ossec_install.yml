@@ -24,6 +24,6 @@
        state: present
     - name: install ossec
       yum:
-       name: ossec-hids
+       name: ossec-hids-agent
        state: latest
       
