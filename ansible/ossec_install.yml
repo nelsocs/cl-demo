@@ -15,6 +15,9 @@
         - gcc
         - inotify-tools
         - bind-utils
+    - rpm_key:
+       state: present
+       key: http://www.atomicrocketturtle.com/RPM-GPG-KEY.art.txt
     - name: install rpm
       yum:
        name: /root/ansible/atomic-release-1.0-21.el7.art.noarch.rpm
