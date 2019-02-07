@@ -1,0 +1,21 @@
+- name: run playbook on localhost
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+
+    - copy: src=prevent-execution-ossec.j2 dest=/var/ossec/etc/ossec.conf
+
+    - name: modify_decoder_xml
+      blockinfile:
+       path: /var/ossec/etc/decoder.xml
+       block: "{{ lookup('file', './prevent-execution-decoder_xml.j2') }}"
+       insertbefore: ^\<\!\-\-\ EOF\ \-\-\>
+
+    - copy: src=prevent-execution-active-response-bin-prevent-execute_sh dest=/var/ossec/active-response/bin/prevent-execution.sh
+
+    - name: modify local_rules_xml
+      blockinfile:
+       insertafter: ^\<\!\-\-\ Modify\ it\ at\ your\ will\.\ \-\-\>
+       block: "{{ lookup('file', './prevent-execution-rules-local_rules_xml') }}"
+       dest: /var/ossec/rules/local_rules.xml
+

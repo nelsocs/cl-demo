@@ -1,0 +1,12 @@
+<decoder name="syscheck-whitelist">
+  <program_name>^syscheck</program_name>
+</decoder>
+
+<decoder name="syscheck-whitelist-violation">
+  <parent>syscheck-whitelist</parent>
+  <prematch offset="after_parent">^Integrity checksum </prematch>
+  <regex>changed for: '(/\D*)*'$</regex>
+  <order>extra_data</order>
+</decoder>
+
+<!-- EOF -->

@@ -1,0 +1,12 @@
+<!-- Modify it at your will. -->
+
+<group name="local,syscheck,fim,">
+  <rule id="100040" level="7">
+    <if_sid>550,551,552,553,554</if_sid>
+    <decoded_as>syscheck-whitelist</decoded_as>
+    <description>Alert for FIM</description>
+    <program_name>syscheck</program_name>
+  </rule>
+</group>
+
+
