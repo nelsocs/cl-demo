@@ -2,6 +2,15 @@
   hosts: 127.0.0.1
   connection: local
   tasks:
+    - name: install list of packages
+      yum:
+       name: "{{ packages }}"
+       state: present
+      vars:
+       packages:
+        - gcc
+        - inotify-tools
+        - bind-utils
     - name: install rpm
       yum:
        name: /root/ansible/atomic-release-1.0-21.el7.art.noarch.rpm
