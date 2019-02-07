@@ -18,8 +18,12 @@
     - rpm_key:
        state: present
        key: http://www.atomicrocketturtle.com/RPM-GPG-KEY.art.txt
-    - name: install rpm
+    - name: install Atomic repo
       yum:
        name: /root/ansible/atomic-release-1.0-21.el7.art.noarch.rpm
        state: present
+    - name: install ossec
+      yum:
+       name: ossec-hids
+       state: latest
       
