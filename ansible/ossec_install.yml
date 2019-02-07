@@ -1,0 +1,9 @@
+- name: run playbook on localhost
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+    - name: install rpm
+      yum:
+       name: /root/ansible/atomic-release-1.0-21.el7.art.noarch.rpm
+       state: present
+      
